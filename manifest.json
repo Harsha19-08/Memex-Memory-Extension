@@ -1,0 +1,72 @@
+{
+  "manifest_version": 3,
+  "name": "Memex — Browser Memory",
+  "version": "1.0.0",
+  "description": "Clipboard memory, notes, and todos. Everything you copy, instantly searchable.",
+  "author": "Memex Team",
+  "homepage_url": "https://memex.dev",
+  
+  "permissions": [
+    "storage",
+    "contextMenus",
+    "sidePanel",
+    "clipboardRead",
+    "clipboardWrite"
+  ],
+  
+  "host_permissions": [
+    "http://*/*",
+    "https://*/*",
+    "file://*/*"
+  ],
+  
+  "background": {
+    "service_worker": "src/background.js",
+    "type": "module"
+  },
+  
+  "content_scripts": [
+    {
+      "matches": ["http://*/*", "https://*/*", "file://*/*"],
+      "js": ["src/content.js"],
+      "run_at": "document_start",
+      "all_frames": true
+    }
+  ],
+  
+  "side_panel": {
+    "default_path": "sidepanel.html"
+  },
+  
+  "action": {
+    "default_title": "Open Memex",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "32": "icons/icon32.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  
+  "icons": {
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  
+  "commands": {
+    "focus-search": {
+      "suggested_key": { "default": "Ctrl+K", "mac": "Command+K" },
+      "description": "Focus search bar"
+    },
+    "quick-note": {
+      "suggested_key": { "default": "Ctrl+Shift+N", "mac": "Command+Shift+N" },
+      "description": "Create quick note"
+    },
+    "view-clipboard": {
+      "suggested_key": { "default": "Ctrl+Shift+C", "mac": "Command+Shift+C" },
+      "description": "View clipboard history"
+    }
+  }
+}

@@ -1,0 +1,115 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0a0a14"/>
+      <stop offset="100%" stop-color="#14122d"/>
+    </linearGradient>
+    <linearGradient id="dot-grad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#59aaff"/>
+      <stop offset="100%" stop-color="#007aff"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#007aff" stop-opacity="0.4"/>
+      <stop offset="100%" stop-color="#007aff" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="blur-sm">
+      <feGaussianBlur stdDeviation="2.5"/>
+    </filter>
+    <clipPath id="rr">
+      <rect width="128" height="128" rx="29" ry="29"/>
+    </clipPath>
+  </defs>
+
+  <!-- Background -->
+  <rect width="128" height="128" rx="29" ry="29" fill="url(#bg)"/>
+
+  <!-- Top inner glow -->
+  <rect width="128" height="50" rx="0" ry="0" fill="#3a7fff" opacity="0.06" clip-path="url(#rr)"/>
+
+  <!-- Connection lines (M path) -->
+  <g stroke="#007aff" stroke-linecap="round" opacity="0.55">
+    <!-- Glow layer -->
+    <line x1="27" y1="89" x2="27" y2="64" stroke-width="6" opacity="0.18"/>
+    <line x1="27" y1="64" x2="27" y2="39" stroke-width="6" opacity="0.18"/>
+    <line x1="27" y1="39" x2="51" y2="55" stroke-width="6" opacity="0.18"/>
+    <line x1="51" y1="55" x2="64" y2="69" stroke-width="6" opacity="0.18"/>
+    <line x1="64" y1="69" x2="77" y2="55" stroke-width="6" opacity="0.18"/>
+    <line x1="77" y1="55" x2="101" y2="39" stroke-width="6" opacity="0.18"/>
+    <line x1="101" y1="39" x2="101" y2="64" stroke-width="6" opacity="0.18"/>
+    <line x1="101" y1="64" x2="101" y2="89" stroke-width="6" opacity="0.18"/>
+    <!-- Main lines -->
+    <line x1="27" y1="89" x2="27" y2="64" stroke-width="2.2" opacity="0.9"/>
+    <line x1="27" y1="64" x2="27" y2="39" stroke-width="2.2" opacity="0.9"/>
+    <line x1="27" y1="39" x2="51" y2="55" stroke-width="2.2" opacity="0.9"/>
+    <line x1="51" y1="55" x2="64" y2="69" stroke-width="2.2" opacity="0.9"/>
+    <line x1="64" y1="69" x2="77" y2="55" stroke-width="2.2" opacity="0.9"/>
+    <line x1="77" y1="55" x2="101" y2="39" stroke-width="2.2" opacity="0.9"/>
+    <line x1="101" y1="39" x2="101" y2="64" stroke-width="2.2" opacity="0.9"/>
+    <line x1="101" y1="64" x2="101" y2="89" stroke-width="2.2" opacity="0.9"/>
+  </g>
+
+  <!-- Nodes with glow -->
+  <!-- Bottom-left corner -->
+  <circle cx="27" cy="89" r="12" fill="#007aff" opacity="0.22" filter="url(#blur-sm)"/>
+  <circle cx="27" cy="89" r="6.5" fill="url(#dot-grad)"/>
+  <ellipse cx="24.5" cy="86.5" rx="2.8" ry="2" fill="#9dd0ff" opacity="0.75"/>
+  <circle cx="23.8" cy="86" r="0.9" fill="white" opacity="0.8"/>
+
+  <!-- Mid-left -->
+  <circle cx="27" cy="64" r="10" fill="#007aff" opacity="0.2" filter="url(#blur-sm)"/>
+  <circle cx="27" cy="64" r="5.8" fill="url(#dot-grad)"/>
+  <ellipse cx="24.8" cy="61.8" rx="2.4" ry="1.7" fill="#9dd0ff" opacity="0.72"/>
+  <circle cx="24.2" cy="61.3" r="0.8" fill="white" opacity="0.8"/>
+
+  <!-- Top-left corner (peak) -->
+  <circle cx="27" cy="39" r="12" fill="#007aff" opacity="0.22" filter="url(#blur-sm)"/>
+  <circle cx="27" cy="39" r="6.5" fill="url(#dot-grad)"/>
+  <ellipse cx="24.5" cy="36.5" rx="2.8" ry="2" fill="#9dd0ff" opacity="0.75"/>
+  <circle cx="23.8" cy="36" r="0.9" fill="white" opacity="0.8"/>
+
+  <!-- Left shoulder peak -->
+  <circle cx="51" cy="55" r="10" fill="#007aff" opacity="0.2" filter="url(#blur-sm)"/>
+  <circle cx="51" cy="55" r="5.5" fill="url(#dot-grad)"/>
+  <ellipse cx="49" cy="52.8" rx="2.2" ry="1.6" fill="#9dd0ff" opacity="0.7"/>
+  <circle cx="48.5" cy="52.3" r="0.7" fill="white" opacity="0.8"/>
+
+  <!-- Center valley (V dip) -->
+  <circle cx="64" cy="69" r="10" fill="#007aff" opacity="0.2" filter="url(#blur-sm)"/>
+  <circle cx="64" cy="69" r="5.5" fill="url(#dot-grad)"/>
+  <ellipse cx="62" cy="66.8" rx="2.2" ry="1.6" fill="#9dd0ff" opacity="0.7"/>
+  <circle cx="61.5" cy="66.3" r="0.7" fill="white" opacity="0.8"/>
+
+  <!-- Right shoulder peak -->
+  <circle cx="77" cy="55" r="10" fill="#007aff" opacity="0.2" filter="url(#blur-sm)"/>
+  <circle cx="77" cy="55" r="5.5" fill="url(#dot-grad)"/>
+  <ellipse cx="75" cy="52.8" rx="2.2" ry="1.6" fill="#9dd0ff" opacity="0.7"/>
+  <circle cx="74.5" cy="52.3" r="0.7" fill="white" opacity="0.8"/>
+
+  <!-- Top-right corner -->
+  <circle cx="101" cy="39" r="12" fill="#007aff" opacity="0.22" filter="url(#blur-sm)"/>
+  <circle cx="101" cy="39" r="6.5" fill="url(#dot-grad)"/>
+  <ellipse cx="98.5" cy="36.5" rx="2.8" ry="2" fill="#9dd0ff" opacity="0.75"/>
+  <circle cx="97.8" cy="36" r="0.9" fill="white" opacity="0.8"/>
+
+  <!-- Mid-right -->
+  <circle cx="101" cy="64" r="10" fill="#007aff" opacity="0.2" filter="url(#blur-sm)"/>
+  <circle cx="101" cy="64" r="5.8" fill="url(#dot-grad)"/>
+  <ellipse cx="98.8" cy="61.8" rx="2.4" ry="1.7" fill="#9dd0ff" opacity="0.72"/>
+  <circle cx="98.2" cy="61.3" r="0.8" fill="white" opacity="0.8"/>
+
+  <!-- Bottom-right corner -->
+  <circle cx="101" cy="89" r="12" fill="#007aff" opacity="0.22" filter="url(#blur-sm)"/>
+  <circle cx="101" cy="89" r="6.5" fill="url(#dot-grad)"/>
+  <ellipse cx="98.5" cy="86.5" rx="2.8" ry="2" fill="#9dd0ff" opacity="0.75"/>
+  <circle cx="97.8" cy="86" r="0.9" fill="white" opacity="0.8"/>
+
+  <!-- Pulse dot — bottom right accent -->
+  <circle cx="100" cy="100" r="16" fill="#007aff" opacity="0.12" filter="url(#blur-sm)"/>
+  <circle cx="100" cy="100" r="10" fill="#007aff" opacity="0.22" filter="url(#blur-sm)"/>
+  <circle cx="100" cy="100" r="5.5" fill="url(#dot-grad)"/>
+  <ellipse cx="97.8" cy="97.8" rx="2.3" ry="1.7" fill="#9dd0ff" opacity="0.72"/>
+  <circle cx="97.3" cy="97.3" r="0.8" fill="white" opacity="0.85"/>
+
+  <!-- Border -->
+  <rect width="128" height="128" rx="29" ry="29" fill="none" stroke="white" stroke-opacity="0.1" stroke-width="1.5"/>
+</svg>

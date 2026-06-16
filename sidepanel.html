@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Memex</title>
+<style>
+  :root {
+    --bg: #f7f6f2;
+    --bg-2: #efeee9;
+    --bg-3: #e6e4dc;
+    --surface: #ffffff;
+    --surface-2: #f4f3ee;
+    --border: rgba(16,16,16,0.1);
+    --border-2: rgba(16,16,16,0.18);
+    --text: #121212;
+    --text-2: #4b4b4b;
+    --text-3: #8a8a8a;
+    --accent: #2f5cff;
+    --accent-bg: rgba(47,92,255,0.12);
+    --accent-hover: #2447d6;
+    --red: #d94134;
+    --red-bg: rgba(217,65,52,0.12);
+    --green: #238a5a;
+    --green-bg: rgba(35,138,90,0.12);
+    --orange: #c77400;
+    --yellow-note: #fff7e8;
+    --yellow-border: rgba(199,116,0,0.35);
+    --blue-note: #eef3ff;
+    --blue-border: rgba(47,92,255,0.25);
+    --pink-note: #fff0f3;
+    --pink-border: rgba(217,65,123,0.25);
+    --green-note: #eefaf5;
+    --green-note-border: rgba(35,138,90,0.25);
+    --gray-note: #f2f2f2;
+    --gray-note-border: rgba(16,16,16,0.14);
+    --radius: 12px;
+    --radius-sm: 8px;
+    --radius-lg: 16px;
+    --font: -apple-system, BlinkMacSystemFont, "Segoe UI", "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+    --display: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Georgia, serif;
+    --mono: "Cascadia Code", "SF Mono", ui-monospace, "Segoe UI Mono", monospace;
+    --shadow: 0 1px 2px rgba(16,16,16,0.06);
+    --shadow-md: 0 8px 20px rgba(16,16,16,0.08);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme]) {
+      --bg: #0f1113;
+      --bg-2: #171a1f;
+      --bg-3: #1f2329;
+      --surface: #14171b;
+      --surface-2: #1b1f25;
+      --border: rgba(255,255,255,0.08);
+      --border-2: rgba(255,255,255,0.16);
+      --text: #f2f4f8;
+      --text-2: #b2b7c2;
+      --text-3: #6f7682;
+      --accent: #7aa2ff;
+      --accent-bg: rgba(122,162,255,0.16);
+      --accent-hover: #9ab7ff;
+      --red: #ff6b5c;
+      --red-bg: rgba(255,107,92,0.16);
+      --green: #58d19b;
+      --green-bg: rgba(88,209,155,0.16);
+      --orange: #ffb259;
+      --yellow-note: #221805;
+      --yellow-border: rgba(255,189,92,0.35);
+      --blue-note: #0f1726;
+      --blue-border: rgba(122,162,255,0.32);
+      --pink-note: #23111a;
+      --pink-border: rgba(255,107,180,0.3);
+      --green-note: #0f1c17;
+      --green-note-border: rgba(88,209,155,0.3);
+      --gray-note: #171a1f;
+      --gray-note-border: rgba(255,255,255,0.12);
+      --shadow: 0 1px 2px rgba(0,0,0,0.35);
+      --shadow-md: 0 10px 24px rgba(0,0,0,0.35);
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0f1113;
+    --bg-2: #171a1f;
+    --bg-3: #1f2329;
+    --surface: #14171b;
+    --surface-2: #1b1f25;
+    --border: rgba(255,255,255,0.08);
+    --border-2: rgba(255,255,255,0.16);
+    --text: #f2f4f8;
+    --text-2: #b2b7c2;
+    --text-3: #6f7682;
+    --accent: #7aa2ff;
+    --accent-bg: rgba(122,162,255,0.16);
+    --accent-hover: #9ab7ff;
+    --red: #ff6b5c;
+    --red-bg: rgba(255,107,92,0.16);
+    --green: #58d19b;
+    --green-bg: rgba(88,209,155,0.16);
+    --orange: #ffb259;
+    --yellow-note: #221805;
+    --yellow-border: rgba(255,189,92,0.35);
+    --blue-note: #0f1726;
+    --blue-border: rgba(122,162,255,0.32);
+    --pink-note: #23111a;
+    --pink-border: rgba(255,107,180,0.3);
+    --green-note: #0f1c17;
+    --green-note-border: rgba(88,209,155,0.3);
+    --gray-note: #171a1f;
+    --gray-note-border: rgba(255,255,255,0.12);
+    --shadow: 0 1px 2px rgba(0,0,0,0.35);
+    --shadow-md: 0 10px 24px rgba(0,0,0,0.35);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme]) .status-bar { background: rgba(20,23,27,0.7); }
+    :root:not([data-theme]) .onboarding { background: rgba(0,0,0,0.5); }
+  }
+  :root[data-theme="dark"] .status-bar { background: rgba(20,23,27,0.7); }
+  :root[data-theme="dark"] .onboarding { background: rgba(0,0,0,0.5); }
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-font-smoothing: antialiased; }
+  body { font-family: var(--font); background: var(--bg); color: var(--text); font-size: 13.5px; height: 100vh; display: flex; flex-direction: column; overflow: hidden; letter-spacing: 0.01em; }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  /* Header */
+  .header { padding: 16px 16px 0; flex-shrink: 0; }
+  .header-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+  .logo { font-family: var(--display); font-size: 20px; font-weight: 600; letter-spacing: -0.2px; color: var(--text); display:flex; align-items:center; gap:10px; }
+  .logo-mark { width: 22px; height: 22px; border-radius: 7px; display:block; }
+  .logo-text { display: inline-flex; align-items: baseline; gap: 0; line-height: 1; }
+  .logo-text span { color: var(--accent); }
+  .header-actions { display: flex; gap: 6px; }
+  .icon-btn { width: 28px; height: 28px; border-radius: 8px; border: 1px solid transparent; background: transparent; color: var(--text-2); cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.15s, color 0.15s, border-color 0.15s; }
+  .icon-btn:hover { background: var(--surface-2); color: var(--text); border-color: var(--border); }
+  .icon-btn svg { width: 16px; height: 16px; stroke-width: 1.8; }
+
+  /* Tab bar */
+  .tabs { display: flex; gap: 6px; padding: 6px 0 10px; border-bottom: 1px solid var(--border); margin-bottom: 0; }
+  .tab { flex: 1; border: 1px solid transparent; background: transparent; color: var(--text-2); font-family: var(--font); font-size: 12px; font-weight: 600; letter-spacing: 0.02em; cursor: pointer; padding: 8px 6px; border-radius: 10px; transition: all 0.15s; display: flex; align-items: center; justify-content: center; gap: 6px; }
+  .tab svg { width: 14px; height: 14px; stroke-width: 1.8; }
+  .tab:hover { color: var(--text); border-color: var(--border); }
+  .tab.active { background: var(--surface); color: var(--text); border-color: var(--border); box-shadow: none; }
+
+  /* Status bar */
+  .status-bar { display: flex; align-items: center; gap: 8px; padding: 8px 16px; border-bottom: 1px solid var(--border); background: rgba(255,255,255,0.6); backdrop-filter: blur(10px); flex-wrap: wrap; }
+  .status-chip { border: 1px solid var(--border); background: var(--surface); color: var(--text-2); border-radius: 999px; padding: 4px 10px; font-size: 11px; font-weight: 600; letter-spacing: 0.02em; display: inline-flex; align-items: center; gap: 6px; cursor: pointer; transition: border-color 0.12s, background 0.12s, color 0.12s; }
+  .status-chip.static { cursor: default; }
+  .status-chip:hover { border-color: var(--border-2); }
+  .status-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--text-3); }
+  .status-chip.on { color: var(--green); border-color: var(--green); background: var(--green-bg); }
+  .status-chip.on .status-dot { background: var(--green); }
+  .status-chip.off { color: var(--text-3); }
+  .status-note { padding: 6px 16px 0; font-size: 11px; color: var(--text-3); letter-spacing: 0.01em; }
+
+  .inline-banner { margin: 10px 16px 0; padding: 8px 10px; border: 1px solid var(--border); border-radius: 10px; background: var(--surface-2); font-size: 11.5px; color: var(--text-2); display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+
+  .btn { height: 32px; border-radius: 8px; border: 1px solid var(--border); background: var(--surface); color: var(--text); font-size: 12px; font-weight: 600; padding: 0 12px; cursor: pointer; transition: background 0.12s, border-color 0.12s, color 0.12s; }
+  .btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .btn.primary:hover { background: var(--accent-hover); }
+  .btn.ghost { background: transparent; color: var(--text-2); }
+  .btn.ghost:hover { background: var(--surface-2); }
+
+  .show-more { margin: 6px 16px 0; border: 1px dashed var(--border); background: transparent; color: var(--text-2); font-size: 11.5px; border-radius: 10px; padding: 6px 10px; cursor: pointer; }
+  .show-more:hover { border-color: var(--border-2); color: var(--text); }
+
+  /* Search bar */
+  .search-wrap { position: relative; margin: 12px 16px 0; }
+  .search-input { width: 100%; height: 36px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm); font-family: var(--font); font-size: 13px; color: var(--text); padding: 0 12px 0 34px; outline: none; transition: border-color 0.15s, background 0.15s; }
+  .search-input::placeholder { color: var(--text-3); }
+  .search-input:focus { border-color: var(--accent); background: var(--surface); }
+  .search-icon { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); color: var(--text-3); pointer-events: none; }
+  .search-icon svg { width: 14px; height: 14px; stroke-width: 2; }
+  .search-clear { position: absolute; right: 8px; top: 50%; transform: translateY(-50%); background: var(--bg-3); border: 1px solid var(--border); border-radius: 50%; width: 16px; height: 16px; cursor: pointer; display: none; align-items: center; justify-content: center; color: var(--text-2); font-size: 10px; }
+  .search-clear.visible { display: flex; }
+
+  /* Panel content */
+  .panel { flex: 1; overflow: hidden; display: flex; flex-direction: column; }
+  .tab-pane { display: none; flex-direction: column; flex: 1; overflow: hidden; }
+  .tab-pane.active { display: flex; }
+
+  /* Scrollable list */
+  .list-area { flex: 1; overflow-y: auto; padding: 12px 16px 80px; }
+  .list-area::-webkit-scrollbar { width: 4px; }
+  .list-area::-webkit-scrollbar-track { background: transparent; }
+  .list-area::-webkit-scrollbar-thumb { background: var(--border-2); border-radius: 2px; }
+
+  /* Date group label */
+  .date-label { font-size: 11px; font-weight: 600; color: var(--text-3); letter-spacing: 0.05em; text-transform: uppercase; padding: 14px 0 6px; }
+  .date-label:first-child { padding-top: 4px; }
+
+  /* ── NOTES ── */
+  .note-card { border-radius: var(--radius); padding: 12px 14px; margin-bottom: 10px; position: relative; cursor: default; transition: box-shadow 0.15s, border-color 0.15s; border: 1px solid var(--border); background: var(--surface); }
+  .note-card:hover { box-shadow: var(--shadow); border-color: var(--border-2); }
+  .note-card.yellow { background: var(--yellow-note); border-left: 3px solid var(--yellow-border); }
+  .note-card.blue { background: var(--blue-note); border-left: 3px solid var(--blue-border); }
+  .note-card.pink { background: var(--pink-note); border-left: 3px solid var(--pink-border); }
+  .note-card.green { background: var(--green-note); border-left: 3px solid var(--green-note-border); }
+  .note-card.gray { background: var(--gray-note); border-left: 3px solid var(--gray-note-border); }
+  .note-content { font-size: 13.5px; line-height: 1.55; color: var(--text); white-space: pre-wrap; word-break: break-word; outline: none; min-height: 18px; }
+  .note-content:empty:before { content: attr(data-placeholder); color: var(--text-3); pointer-events: none; }
+  .note-footer { display: flex; align-items: center; justify-content: space-between; margin-top: 10px; }
+  .note-meta { font-size: 11px; color: var(--text-3); display: flex; align-items: center; gap: 6px; }
+  .note-source { background: var(--surface-2); padding: 2px 8px; border-radius: 20px; font-size: 10.5px; color: var(--text-2); border: 1px solid var(--border); }
+  .note-actions { display: flex; gap: 4px; opacity: 0.7; transition: opacity 0.15s; }
+  .note-card:hover .note-actions { opacity: 1; }
+  .note-btn { width: 24px; height: 24px; border: 1px solid transparent; background: transparent; border-radius: 6px; cursor: pointer; color: var(--text-3); display: flex; align-items: center; justify-content: center; transition: background 0.12s, color 0.12s, border-color 0.12s; }
+  .note-btn:hover { background: var(--surface-2); color: var(--text); border-color: var(--border); }
+  .note-btn.pin-btn.active { color: var(--orange); }
+  .note-btn.delete-btn:hover { color: var(--red); background: var(--red-bg); }
+  .note-btn svg { width: 13px; height: 13px; stroke-width: 2; }
+  .color-picker { display: flex; gap: 6px; align-items: center; }
+  .color-dot { width: 12px; height: 12px; border-radius: 50%; cursor: pointer; border: 2px solid transparent; transition: transform 0.12s, border-color 0.12s; }
+  .color-dot:hover { transform: scale(1.15); }
+  .color-dot.selected { border-color: var(--text-2); }
+  .color-dot.yellow { background: #f0c15b; }
+  .color-dot.blue { background: #5a78ff; }
+  .color-dot.pink { background: #e06c94; }
+  .color-dot.green { background: #4fb188; }
+  .color-dot.gray { background: #8a8a8a; }
+  .pinned-badge { font-size: 10px; font-weight: 600; letter-spacing: 0.03em; color: var(--orange); text-transform: uppercase; }
+
+  /* New note button */
+  .fab { position: fixed; bottom: 16px; right: 16px; width: 44px; height: 44px; border-radius: 14px; background: var(--accent); border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: var(--shadow-md); transition: transform 0.15s, background 0.15s; z-index: 100; }
+  .fab:hover { background: var(--accent-hover); transform: translateY(-1px); }
+  .fab:active { transform: scale(0.97); }
+  .fab svg { width: 20px; height: 20px; stroke: white; stroke-width: 2.5; }
+  .fab-2 { bottom: 16px; right: 68px; background: var(--surface-2); box-shadow: var(--shadow-md); }
+  .fab-2 svg { stroke: var(--text-2); stroke-width: 2; }
+  .fab-2:hover { background: var(--bg-3); }
+
+  /* ── CLIPBOARD ── */
+  .clip-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 12px 14px; margin-bottom: 10px; transition: border-color 0.15s, box-shadow 0.15s; }
+  .clip-card:hover { border-color: var(--border-2); box-shadow: var(--shadow); }
+  .clip-text { font-size: 13px; line-height: 1.55; color: var(--text); white-space: pre-wrap; word-break: break-word; max-height: 90px; overflow: hidden; position: relative; font-family: var(--mono); }
+  .clip-text.is-url { font-family: var(--font); color: var(--accent); text-decoration: underline; cursor: pointer; }
+  .clip-fade { position: absolute; bottom: 0; left: 0; right: 0; height: 20px; background: linear-gradient(transparent, var(--surface)); pointer-events: none; }
+  .clip-footer { display: flex; align-items: center; justify-content: space-between; margin-top: 8px; }
+  .clip-source-pill { background: var(--surface-2); border-radius: 20px; padding: 2px 8px; font-size: 10.5px; color: var(--text-2); border: 1px solid var(--border); }
+  button.clip-source-pill { appearance: none; background: var(--surface-2); cursor: pointer; }
+  button.clip-source-pill:hover { background: var(--bg-3); border-color: var(--border-2); }
+  .clip-time { font-size: 11px; color: var(--text-3); }
+  .clip-actions { display: flex; gap: 4px; }
+  .clip-btn { height: 28px; border: 1px solid var(--border); border-radius: 7px; cursor: pointer; font-family: var(--font); font-size: 11.5px; font-weight: 600; transition: background 0.12s, color 0.12s, border-color 0.12s; display: flex; align-items: center; gap: 4px; padding: 0 10px; background: var(--surface); color: var(--text-2); }
+  .clip-btn.open { background: transparent; color: var(--text-3); border-color: transparent; padding: 0 8px; }
+  .clip-btn.open:hover { background: var(--surface-2); color: var(--accent); border-color: var(--border); }
+  .clip-btn.link { background: transparent; color: var(--text-3); border-color: transparent; }
+  .clip-btn.link:hover { background: var(--surface-2); color: var(--accent); border-color: var(--border); }
+  .clip-btn.copy { background: var(--accent-bg); color: var(--accent); border-color: transparent; }
+  .clip-btn.copy:hover { background: var(--accent); color: white; }
+  .clip-btn.pin { background: transparent; color: var(--text-3); border-color: transparent; }
+  .clip-btn.pin:hover { background: var(--surface-2); color: var(--orange); border-color: var(--border); }
+  .clip-btn.pin.active { color: var(--orange); }
+  .clip-btn.del { background: transparent; color: var(--text-3); border-color: transparent; }
+  .clip-btn.del:hover { background: var(--red-bg); color: var(--red); border-color: var(--border); }
+  .clip-btn svg { width: 12px; height: 12px; stroke-width: 2; }
+  .pinned-strip { background: var(--accent-bg); border: 1px solid var(--accent-bg); border-radius: var(--radius); padding: 8px 12px; margin-bottom: 8px; font-size: 12px; color: var(--accent); font-weight: 500; cursor: pointer; display: flex; align-items: center; justify-content: space-between; }
+
+  /* ── TODOS ── */
+  .todo-input-wrap { padding: 12px 16px; border-bottom: 1px solid var(--border); background: var(--surface); flex-shrink: 0; display: flex; gap: 8px; }
+  .todo-input { flex: 1; height: 36px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm); font-family: var(--font); font-size: 13.5px; color: var(--text); padding: 0 12px; outline: none; transition: border-color 0.15s, background 0.15s; }
+  .todo-input::placeholder { color: var(--text-3); }
+  .todo-input:focus { border-color: var(--accent); background: var(--surface); }
+  .priority-select { height: 36px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm); font-family: var(--font); font-size: 12px; color: var(--text-2); padding: 0 8px; outline: none; cursor: pointer; }
+  .add-todo-btn { height: 36px; width: 36px; background: var(--accent); border: none; border-radius: 10px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.15s; flex-shrink: 0; }
+  .add-todo-btn:hover { background: var(--accent-hover); }
+  .add-todo-btn svg { width: 16px; height: 16px; stroke: white; stroke-width: 2.5; }
+  .todo-sections { padding: 0 0 80px; overflow-y: auto; flex: 1; }
+  .todo-sections::-webkit-scrollbar { width: 4px; }
+  .todo-sections::-webkit-scrollbar-thumb { background: var(--border-2); border-radius: 2px; }
+  .todo-section-label { font-size: 11px; font-weight: 600; color: var(--text-3); letter-spacing: 0.05em; text-transform: uppercase; padding: 12px 16px 6px; }
+  .todo-item { display: flex; align-items: flex-start; gap: 10px; padding: 10px 16px; transition: background 0.12s; cursor: default; border-bottom: 1px solid var(--border); }
+  .todo-item:hover { background: var(--surface-2); }
+  .todo-item:last-child { border-bottom: none; }
+  .todo-check { width: 18px; height: 18px; border-radius: 5px; border: 1.5px solid var(--border-2); cursor: pointer; flex-shrink: 0; margin-top: 2px; display: flex; align-items: center; justify-content: center; transition: all 0.15s; background: var(--surface); color: #ffffff; }
+  .todo-check:hover { border-color: var(--accent); }
+  .todo-check.checked { background: var(--accent); border-color: var(--accent); }
+  .todo-check.checked svg { opacity: 1; }
+  .todo-check svg { width: 12px; height: 12px; stroke: currentColor; stroke-width: 2.4; opacity: 0; }
+  .todo-text { flex: 1; font-size: 13.5px; line-height: 1.45; color: var(--text); word-break: break-word; }
+  .todo-text.done { text-decoration: line-through; color: var(--text-3); }
+  .priority-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; margin-top: 7px; }
+  .priority-dot.high { background: var(--red); }
+  .priority-dot.medium { background: var(--orange); }
+  .priority-dot.low { background: var(--green); }
+  .priority-dot.none { background: var(--text-3); }
+  .todo-del-btn { width: 22px; height: 22px; border: 1px solid transparent; background: transparent; border-radius: 6px; cursor: pointer; color: var(--text-3); display: none; align-items: center; justify-content: center; flex-shrink: 0; }
+  .todo-item:hover .todo-del-btn { display: flex; }
+  .todo-del-btn:hover { background: var(--red-bg); color: var(--red); border-color: var(--border); }
+  .todo-del-btn svg { width: 12px; height: 12px; stroke-width: 2; }
+  .todo-stats { display: flex; gap: 12px; padding: 8px 16px; background: var(--surface); border-bottom: 1px solid var(--border); flex-shrink: 0; }
+  .stat-chip { font-size: 11px; color: var(--text-3); display: flex; align-items: center; gap: 4px; }
+  .stat-num { font-weight: 600; color: var(--text-2); }
+
+  /* ── SEARCH ── */
+  .search-pane-wrap { padding: 10px 16px; border-bottom: 1px solid var(--border); flex-shrink: 0; }
+  .search-results { flex: 1; overflow-y: auto; padding: 8px 16px 80px; }
+  .search-results::-webkit-scrollbar { width: 4px; }
+  .search-results::-webkit-scrollbar-thumb { background: var(--border-2); border-radius: 2px; }
+  .result-group-label { font-size: 11px; font-weight: 600; color: var(--text-3); letter-spacing: 0.04em; text-transform: uppercase; padding: 10px 0 6px; display: flex; align-items: center; gap: 6px; }
+  .result-group-label svg { width: 12px; height: 12px; stroke-width: 2; }
+  .result-item { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 10px 12px; margin-bottom: 6px; cursor: pointer; transition: border-color 0.12s, box-shadow 0.12s; }
+  .result-item:hover { border-color: var(--border-2); box-shadow: var(--shadow); }
+  .result-text { font-size: 12.5px; line-height: 1.45; color: var(--text); white-space: pre-wrap; word-break: break-word; max-height: 60px; overflow: hidden; }
+  .result-text mark { background: var(--accent-bg); color: var(--accent); border-radius: 2px; padding: 0 1px; }
+  .result-meta { font-size: 11px; color: var(--text-3); margin-top: 4px; }
+  .empty-state { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 48px 16px; color: var(--text-3); text-align: center; gap: 8px; }
+  .empty-state svg { width: 32px; height: 32px; stroke-width: 1.2; opacity: 0.5; }
+  .empty-title { font-size: 14px; font-weight: 500; color: var(--text-2); }
+  .empty-sub { font-size: 12px; }
+  .pinned-section { margin-bottom: 2px; }
+  .section-divider { height: 1px; background: var(--border); margin: 4px 0 10px; }
+  .theme-toggle { }
+
+  /* Onboarding */
+  .onboarding { position: fixed; inset: 0; background: rgba(0,0,0,0.35); display: flex; align-items: center; justify-content: center; z-index: 999; backdrop-filter: blur(6px); }
+  .onboarding[hidden] { display: none; }
+  .onboarding-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 16px; width: min(340px, 92%); box-shadow: var(--shadow-md); }
+  .onboarding-eyebrow { font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-3); margin-bottom: 6px; }
+  .onboarding-title { font-family: var(--display); font-size: 18px; color: var(--text); margin-bottom: 6px; }
+  .onboarding-sub { font-size: 12.5px; color: var(--text-2); line-height: 1.5; margin-bottom: 10px; }
+  .onboarding-privacy { font-size: 11.5px; color: var(--text-3); line-height: 1.4; margin-bottom: 12px; }
+  .onboarding-actions { display: flex; gap: 8px; justify-content: flex-end; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-top">
+    <div class="logo"><img class="logo-mark" src="icons/icon48.png" alt="" aria-hidden="true"><span class="logo-text">mem<span>ex</span></span></div>
+    <div class="header-actions">
+      <button class="icon-btn" id="themeBtn" title="Toggle theme">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+      </button>
+      <button class="icon-btn" id="clearBtn" title="Clear all" style="display:none">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/></svg>
+      </button>
+    </div>
+  </div>
+  <div class="tabs" id="tabBar">
+    <button class="tab active" data-tab="notes">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+      Notes
+    </button>
+    <button class="tab" data-tab="clipboard">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M16 4h2a2 2 0 012 2v14a2 2 0 01-2 2H6a2 2 0 01-2-2V6a2 2 0 012-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/></svg>
+      Clips
+    </button>
+    <button class="tab" data-tab="todos">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
+      Todos
+    </button>
+    <button class="tab" data-tab="search">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      Search
+    </button>
+  </div>
+  <div class="status-bar">
+    <button class="status-chip off" id="clipboardToggle" aria-pressed="false">
+      <span class="status-dot"></span>
+      Clipboard: Off
+    </button>
+    <button class="status-chip" id="captureNowChip" title="Capture clipboard now (best effort)">Capture</button>
+    <button class="status-chip" id="pollChip" title="Monitor clipboard while this panel is focused">Monitor: Off</button>
+    <div class="status-chip static" id="privacyChip">Local-only</div>
+    <button class="status-chip" id="themeChip" title="Cycle theme">Theme: Auto</button>
+  </div>
+  <div class="status-note" id="privacyNote">All data stays locally on your device. No tracking. No cloud uploads.</div>
+</div>
+
+<div class="panel" id="panel">
+
+  <!-- NOTES TAB -->
+  <div class="tab-pane active" id="pane-notes">
+    <div class="list-area" id="notesList"></div>
+    <button class="fab" id="newNoteBtn" title="New note (Ctrl+Shift+N)">
+      <svg viewBox="0 0 24 24" fill="none"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+    </button>
+  </div>
+
+  <!-- CLIPBOARD TAB -->
+  <div class="tab-pane" id="pane-clipboard">
+    <div class="list-area" id="clipList"></div>
+  </div>
+
+  <!-- TODOS TAB -->
+  <div class="tab-pane" id="pane-todos">
+    <div class="todo-input-wrap">
+      <input class="todo-input" id="todoInput" placeholder="Add a task…" maxlength="280">
+      <select class="priority-select" id="prioritySelect" title="Priority">
+        <option value="none">—</option>
+        <option value="high">🔴</option>
+        <option value="medium">🟡</option>
+        <option value="low">🟢</option>
+      </select>
+      <button class="add-todo-btn" id="addTodoBtn">
+        <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      </button>
+    </div>
+    <div id="todoStats" class="todo-stats"></div>
+    <div class="todo-sections" id="todoList"></div>
+  </div>
+
+  <!-- SEARCH TAB -->
+  <div class="tab-pane" id="pane-search">
+    <div class="search-pane-wrap">
+      <div class="search-wrap" style="margin:0">
+        <span class="search-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></span>
+        <input class="search-input" id="globalSearch" placeholder="Search notes, clips, todos…" autofocus>
+        <button class="search-clear" id="searchClear">✕</button>
+      </div>
+    </div>
+    <div class="search-results" id="searchResults">
+      <div class="empty-state">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <div class="empty-title">Search everything</div>
+        <div class="empty-sub">Notes, clipboard, and todos in one place</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="onboarding" id="onboarding" hidden>
+  <div class="onboarding-card" role="dialog" aria-modal="true" aria-labelledby="onboardingTitle">
+    <div class="onboarding-eyebrow">Privacy-first</div>
+    <div class="onboarding-title" id="onboardingTitle">Enable Clipboard Memory?</div>
+    <div class="onboarding-sub">Memex can save what you copy so you can recall it instantly. You can pause anytime.</div>
+    <div class="onboarding-privacy">All data stays locally on your device. No tracking. No cloud uploads.</div>
+    <div class="onboarding-actions">
+      <button class="btn ghost" id="onboardingSkip">Not now</button>
+      <button class="btn primary" id="onboardingEnable">Enable</button>
+    </div>
+  </div>
+</div>
+
+<script type="module" src="src/sidepanel.js"></script>
+</body>
+</html>
