@@ -74,7 +74,7 @@ Memex lives in your browser's side panel, always one shortcut away. It quietly c
   <img src="./assets/screenshot-search.png" width="48%" />
 </p>
 -->
----
+
 
 <br/>
 
