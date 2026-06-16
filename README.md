@@ -64,7 +64,7 @@ Memex lives in your browser's side panel, always one shortcut away. It quietly c
 | ![Notes](./assets/screenshot-notes.png) | ![Clipboard](./assets/screenshot-clipboard.png) | ![Todos](./assets/screenshot-todos.png) | ![Search](./assets/screenshot-search.png) |
 
 <br/>
-
+<!--
 <p align="center">
   <img src="./assets/screenshot-notes.png" width="48%" />
   <img src="./assets/screenshot-clipboard.png" width="48%" />
@@ -73,7 +73,7 @@ Memex lives in your browser's side panel, always one shortcut away. It quietly c
   <img src="./assets/screenshot-todos.png" width="48%" />
   <img src="./assets/screenshot-search.png" width="48%" />
 </p>
-
+-->
 ---
 
 <br/>
