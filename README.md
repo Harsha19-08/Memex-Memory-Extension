@@ -59,16 +59,12 @@ Memex lives in your browser's side panel, always one shortcut away. It quietly c
 
 <br/>
 
-<!-- Add your screenshots below. Recommended: 3-4 side-by-side or stacked -->
-<!-- Format: ![Alt text](./assets/screenshot-notes.png) -->
-
 | Notes | Clipboard | Todos | Search |
-|-------|-----------|-------|--------|
-| `screenshot-notes.png` | `screenshot-clipboard.png` | `screenshot-todos.png` | `screenshot-search.png` |
+|--------|------------|--------|--------|
+| ![Notes](./assets/screenshot-notes.png) | ![Clipboard](./assets/screenshot-clipboard.png) | ![Todos](./assets/screenshot-todos.png) | ![Search](./assets/screenshot-search.png) |
 
 <br/>
 
-<!-- Uncomment and replace when you have real screenshots:
 <p align="center">
   <img src="./assets/screenshot-notes.png" width="48%" />
   <img src="./assets/screenshot-clipboard.png" width="48%" />
@@ -77,7 +73,6 @@ Memex lives in your browser's side panel, always one shortcut away. It quietly c
   <img src="./assets/screenshot-todos.png" width="48%" />
   <img src="./assets/screenshot-search.png" width="48%" />
 </p>
--->
 
 ---
 
