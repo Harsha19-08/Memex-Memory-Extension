@@ -149,7 +149,7 @@ Search: "docker"
 <!-- ![Memex Demo](./assets/demo.gif) -->
 
 <!-- Option 2: YouTube embed (linked image) -->
-[![Memex Demo Video](./assets/video-thumb.png)](https://youtu.be/GZfD2LT2ylk)
+[![Memex Demo Video](./assets/thumbnail.png)](https://youtu.be/GZfD2LT2ylk)
 
 *Demo video / GIF coming soon.*
 
